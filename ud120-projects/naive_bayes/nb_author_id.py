@@ -34,12 +34,11 @@ def author_id(f_train, f_test, l_train, l_test):
 	print "training time:", round(time()-t0, 3), "s"	
 	t0 = time()
 	pred = clf.predict(f_test)
-	print "predicting time:", round(time()-t0, 3), "s"
-	print 'accuracy  ',  clf.score(f_test, l_test)
-	return None
+	print "prediction time:", round(time()-t0, 3), "s"
+	return 'accuracy: %f' % clf.score(f_test, l_test)
 
 
-author_id(features_train, features_test, \
+print author_id(features_train, features_test, \
 	labels_train, labels_test)
 
 
