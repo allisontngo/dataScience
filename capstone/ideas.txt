@@ -1,8 +1,0 @@
-1. Kaggle Springleaf dataset:
-	-Predict whether to send a direct mail piece to a customer
-2. Yelp Dataset: 
-	-Find trendsetters (people who find cool places before they are very popular)
-	-Determine when something becomes popular in city
-	-Estimate rating based on reviews
-3. Stanford Dog Dataset:
-	-Identify dog breed from images
