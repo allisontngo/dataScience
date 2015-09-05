@@ -4,6 +4,7 @@ import os
 import pickle
 import re
 import sys
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 sys.path.append( "../tools/" )
 from parse_out_email_text import parseOutText
@@ -33,35 +34,40 @@ word_data = []
 ### thousands of emails from Sara and Chris, so running over all of them
 ### can take a long time
 ### temp_counter helps you only look at the first 200 emails in the list
-temp_counter = 0
+# temp_counter = 0
 
 
 for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
-        if temp_counter < 200:
+        # temp_counter += 1
+        # if temp_counter < 200:
             path = os.path.join('..', path[:-1])
             print path
             email = open(path, "r")
 
             ### use parseOutText to extract the text from the opened email
-
+            words = parseOutText(email)
             ### use str.replace() to remove any instances of the words
-            ### ["sara", "shackleton", "chris", "germani"]
+            ### ["sara", "shackleton", "chris", "germani"] 
 
+            # add signature words form lesson 11 to list for feature selection mini-project
+            for wrd in ["sara", "shackleton", "chris", "germani", \
+                        "sshacklensf", "cgermannsf"]:
+                words = words.replace(wrd, '')
             ### append the text to word_data
-
+            word_data.append(words)
             ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-
-
+            if name == "sara": from_data.append(0)
+            if name == "chris": from_data.append(1)
             email.close()
 
 print "emails processed"
 from_sara.close()
 from_chris.close()
 
+## changed pkl because signature words has been removed for lesson 11 mini project
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
@@ -70,5 +76,7 @@ pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
 
 ### in Part 4, do TfIdf vectorization here
-
-
+vect = TfidfVectorizer(stop_words='english')
+vect.fit_transform(word_data)
+print len(vect.get_feature_names())
+print vect.get_feature_names()[34597]
