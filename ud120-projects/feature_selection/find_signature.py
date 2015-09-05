@@ -36,6 +36,15 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
 
+from sklearn.metrics import accuracy_score
+print 'test accuracy: ', accuracy_score(labels_test, clf.predict(features_test))
 
-
+# find important features (above 0.2 threshold)
+idx = numpy.where(clf.feature_importances_ > 0.2)[0]
+print 'number of important feature: ', idx[0]
+print 'importance of important feature: ', clf.feature_importances_[idx[0]] 
+print 'most powerful word: ', vectorizer.get_feature_names()[idx[0]]
